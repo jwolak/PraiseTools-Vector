@@ -1,0 +1,9 @@
+Google C++ Style Guide
+Description:
+https://google.github.io/styleguide/cppguide.html
+
+IDE's coding styles files:
+https://github.com/google/styleguide
+
+How to setup Eclipse C++ IDE:
+https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.cdt.doc.user%2Freference%2Fcdt_u_c_code_style_pref.htm
