@@ -52,11 +52,11 @@
 .gdb_*
 
 #direcory
-TensionCPU/Build/CMakeCache.txt
-TensionCPU/Build/CMakeFiles/
-TensionCPU/Build/Makefile
-TensionCPU/Build/cmake_install.cmake
-TensionCPU/Build/*.log
+PraiseTools-Vector/Build/CMakeCache.txt
+PraiseTools-Vector/Build/CMakeFiles/
+PraiseTools-Vector/Build/Makefile
+PraiseTools-Vector/Build/cmake_install.cmake
+PraiseTools-Vector/Build/*.log
 
 EquinoxLogger/Build/CMakeCache.txt
 EquinoxLogger/Build/CMakeFiles/
