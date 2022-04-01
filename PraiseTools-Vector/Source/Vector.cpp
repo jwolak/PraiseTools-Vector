@@ -1,5 +1,5 @@
 /*
- * vector.h
+ * Vector.cpp
  *
  *  Created on: 2022
  *      Author: Janusz Wolak
@@ -37,39 +37,6 @@
  *
  */
 
-#ifndef SOURCE_VECTOR_H_
-#define SOURCE_VECTOR_H_
+#include "Vector.h"
 
-#include <cstdint>
 
-namespace praise_tools {
-
-template <class T>
-class vector {
-public:
-  ~vector();
-  vector();
-  vector(const vector&);
-  vector(const vector&&);
-  vector(T&);
-  T& operator [] (uint32_t);
-  void operator=(const vector&);
-  void operator==(const vector&);
-  void Add(T&);
-  T& Get();
-  bool IsEmpty();
-  uint32_t Size();
-  void clear();
-  void insert(T&);
-  void erase(uint32_t);
-  void push_back(T&);
-  void emplace_back(T&);
-
-private:
-  T **tab_vector_;
-  uint32_t vector_size_;
-};
-
-} /*namespace praise_tools*/
-
-#endif /* SOURCE_VECTOR_H_ */

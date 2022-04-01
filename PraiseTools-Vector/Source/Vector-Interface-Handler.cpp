@@ -1,5 +1,5 @@
 /*
- * vector.cpp
+ * Vector-Interface-Handler.cpp
  *
  *  Created on: 2022
  *      Author: Janusz Wolak
@@ -37,6 +37,16 @@
  *
  */
 
-#include "vector.h"
 
+#include "Vector-Interface-Handler.h"
 
+#include <cstdlib>
+
+template<class T>
+bool praise_tools::VectorInterfaceHandler<T>::InitVectorObj(T vector_type) {
+
+  vector_data_container_->vector_data = (T**) std::malloc(sizeof(T*));
+  vector_data_container_->vector_data_size = 0;
+
+  return true;
+}
