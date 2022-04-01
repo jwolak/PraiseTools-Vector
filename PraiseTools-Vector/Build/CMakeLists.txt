@@ -9,9 +9,11 @@ add_executable(PraiseTools-Vector.x86
 #interfaces
 
 #headers
+${SOURCE_FILES_DIR}/vector.h
 
 #source
 ${SOURCE_FILES_DIR}/main.cpp
+${SOURCE_FILES_DIR}/vector.cpp
 )
 
 target_link_libraries(PraiseTools-Vector.x86 libEquinoxLogger.a)

@@ -1,5 +1,5 @@
 /*
- * main.cpp
+ * vector.h
  *
  *  Created on: 2022
  *      Author: Janusz Wolak
@@ -37,69 +37,39 @@
  *
  */
 
+#ifndef SOURCE_VECTOR_H_
+#define SOURCE_VECTOR_H_
 
-#include <iostream>
-#include <cstdlib>
+#include <cstdint>
 
+namespace praise_tools {
 
-using namespace std;
+template <class T>
+class vector {
+public:
+  ~vector();
+  vector();
+  vector(const vector&);
+  vector(const vector&&);
+  vector(T&);
+  T& operator [] (uint32_t);
+  void operator=(const vector&);
+  void operator==(const vector&);
+  void Add(T&);
+  T& Get();
+  bool IsEmpty();
+  uint32_t Size();
+  void clear();
+  void insert(T&);
+  void erase(uint32_t);
+  void push_back(T&);
+  void emplace_back(T&);
 
-template<class T> class vector {
-  T **tab;
-  int size;
-
- public:
-  ~vector() {
-    for (int i = 0; i < size; ++i) {
-      delete tab[i];
-    }
-
-    free(tab);
-  }
-
-  vector()
-      :
-      size { 0 } {
-    tab = (T**) std::malloc(sizeof(T*));
-  }
-
-  vector(T new_element)
-      :
-      size { 0 } {
-    *tab = (T*) std::malloc(sizeof(T*));
-    tab[size] = new (T);
-    *tab[size] = new_element;
-    ++size;
-  }
-
-  void Add(T new_element) {
-    tab = (T**) std::realloc(tab, (size + 1) * sizeof(T*));
-    tab[size] = new (T);
-    *tab[size] = new_element;
-    ++size;
-  }
-
-  void Print() {
-    for (int i = 0; i < size; ++i) {
-      std::cout << "\n" << *tab[i];
-    }
-    std::cout << endl;
-  }
-
+private:
+  T **tab_vector_;
+  uint32_t vector_size_;
 };
 
-int main() {
-  cout << "Hello World\n";
+} /*namespace praise_tools*/
 
-  vector<int> vec/*(5)*/;
-  vec.Add(6);
-
-  for (int i = 0; i < 90; ++i) {
-    vec.Add(i + 1);
-  }
-
-  vec.Print();
-
-  return 0;
-}
-
+#endif /* SOURCE_VECTOR_H_ */
