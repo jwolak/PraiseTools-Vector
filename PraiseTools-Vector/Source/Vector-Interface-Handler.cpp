@@ -42,11 +42,58 @@
 
 #include <cstdlib>
 
+#include "Logger.h"
+
 template<class T>
-bool praise_tools::VectorInterfaceHandler<T>::InitVectorObj(T vector_type) {
+bool praise_tools::VectorInterfaceHandler<T>::InitVectorObj() {
 
   vector_data_container_->vector_data = (T**) std::malloc(sizeof(T*));
   vector_data_container_->vector_data_size = 0;
 
+  return true;
+}
+
+template<class T>
+bool praise_tools::VectorInterfaceHandler<T>::DisposeOfVectorObj() {
+
+  if (vector_data_container_->vector_data != nullptr) {
+    if (vector_data_container_->vector_data_size > 0) {
+      for (int i = 0; i < vector_data_container_->vector_data_size; ++i) {
+        delete vector_data_container_->vector_data[i];
+      }
+    } else {
+      LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector object is empty");
+    }
+
+    free(vector_data_container_->vector_data);
+    LOG_DEBUG("%s", "DisposeOfVectorObj(): All Vector's objects have been disposed of");
+
+  } else {
+    LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector object has not been created");
+    return false;
+  }
+
+  return true;
+}
+
+template<class T>
+bool praise_tools::VectorInterfaceHandler<T>::AddNewElelemntToVector(T &new_element) {
+
+  if (*vector_data_container_->vector_data == nullptr) {
+    LOG_ERROR("%s", "Vector not initialized");
+    return false;
+  }
+
+  vector_data_container_->vector_data[vector_data_container_->vector_data_size] = new (T);
+
+  if (vector_data_container_->vector_data[vector_data_container_->vector_data_size] == nullptr) {
+    LOG_ERROR("%s", "New Vector element allocation is failed");
+    return false;
+  }
+
+  *vector_data_container_->vector_data[vector_data_container_->vector_data_size] = new_element;
+
+  ++vector_data_container_->vector_data_size;
+  LOG_DEBUG("%s%d", "New Vector element added successfuly. Vector size is: ", vector_data_container_->vector_data_size);
   return true;
 }

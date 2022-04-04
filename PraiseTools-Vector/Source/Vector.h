@@ -44,18 +44,20 @@
 #include <memory>
 
 #include "Vector-Interface-Handler.h"
+#include "Logger.h"
 
 namespace praise_tools {
 
-template <class T>
+template<class T>
 class Vector {
-public:
+ public:
   ~Vector();
-  Vector() : vector_interface_handler_ { new VectorInterfaceHandler<T> } {}
-  Vector(T&) : vector_interface_handler_ { new VectorInterfaceHandler<T> } {}
-  Vector(const Vector&) : vector_interface_handler_ { new VectorInterfaceHandler<T> } {}
-  Vector(const Vector&&) : vector_interface_handler_ { new VectorInterfaceHandler<T> } {}
-  T& operator [] (uint32_t);
+  Vector();
+  Vector(T &init_lelement);
+  Vector(const Vector &source_vector);
+  Vector(const Vector &&source_vector);
+
+  T& operator [](uint32_t);
   void operator=(const Vector&);
   void operator==(const Vector&);
   void Add(T&);
@@ -70,6 +72,7 @@ public:
 
 private:
   std::unique_ptr<VectorInterfaceHandler<T>> vector_interface_handler_;
+  std::shared_ptr<VectorDataContainer<T>> vec_data_container_;
 /*  T **tab_vector_;
   uint32_t vector_size_;*/
 };

@@ -47,6 +47,8 @@ namespace praise_tools {
 template <class T>
 class VectorDataContainer {
  public:
+  VectorDataContainer() : vector_data { nullptr }, vector_data_size { 0 } {}
+
   T **vector_data;
   uint32_t vector_data_size;
 };

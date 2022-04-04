@@ -38,5 +38,100 @@
  */
 
 #include "Vector.h"
+#include "Logger.h"
 
+template<class T>
+praise_tools::Vector<T>::~Vector() {
 
+  LOG_DEBUG("%s", "Vector<T>::~Vector()");
+
+  if (!vector_interface_handler_->DisposeOfVectorObj()) {
+    LOG_ERROR("%s", "Dispose of Vector object failed!");
+  }
+
+  LOG_DEBUG("%s", "Dispose of Vector object successful");
+}
+
+template<class T>
+praise_tools::Vector<T>::Vector()
+    :
+    vec_data_container_ { new VectorDataContainer<T> },
+    vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
+
+  LOG_DEBUG("%s", "Vector<T>::Vector()");
+
+  if (vector_interface_handler_->InitVectorObj()) {
+    LOG_DEBUG("%s", "Vector object initialization is successful");
+  } else {
+    LOG_ERROR("%s", "Vector object initialization is failed");
+    exit(1);
+  }
+}
+
+template<class T>
+praise_tools::Vector<T>::Vector(T &init_lelement)
+    :
+    vec_data_container_ { new VectorDataContainer<T> },
+    vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
+
+  LOG_DEBUG("%s", "Vector<T>::Vector(T)");
+
+  if (vector_interface_handler_->InitVectorObj()) {
+    LOG_DEBUG("%s", "Vector object initialization is successful");
+
+    if (vector_interface_handler_->AddNewElelemntToVector(init_lelement)) {
+      LOG_DEBUG("%s", "Init Vector and add init element is successful");
+    } else {
+      LOG_ERROR("%s", "Init Vector and add init element is failed");
+      exit(1);
+    }
+
+  } else {
+    LOG_ERROR("%s", "Vector object initialization is failed");
+    exit(1);
+  }
+}
+
+template<class T>
+praise_tools::Vector<T>::Vector(const Vector &source_vector)
+    :
+    vec_data_container_ { new VectorDataContainer<T> },
+    vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
+
+  LOG_DEBUG("%s", "Vector<T>::Vector(const Vector &)");
+
+  if (vector_interface_handler_->InitVectorObj()) {
+    LOG_DEBUG("%s", "Vector object initialization is successful");
+
+    for (int i = 0; i < source_vector->vec_data_container_->vector_data_size; ++i) {
+      if (vector_interface_handler_->AddNewElelemntToVector(*source_vector->vec_data_container_->vector_data[i])) {
+        LOG_DEBUG("%s", "Copy Vector element is successful");
+      } else {
+        LOG_ERROR("%s", "Copy Vector element is is failed");
+        exit(1);
+      }
+    }
+
+  } else {
+    LOG_ERROR("%s", "Vector object initialization is failed");
+    exit(1);
+  }
+}
+
+template<class T>
+praise_tools::Vector<T>::Vector(const Vector &&source_vector) {
+
+  LOG_DEBUG("%s", "Vector<T>::Vector(const Vector)");
+
+  vec_data_container_ = std::move(source_vector->vec_data_container_);
+  if (vec_data_container_ == nullptr) {
+    LOG_ERROR("%s", "Move of vec_data_container_ failed");
+    exit(1);
+  }
+
+  vector_interface_handler_ = std::move(source_vector->vector_interface_handler_);
+  if (vector_interface_handler_ == nullptr) {
+    LOG_ERROR("%s", "Move of vector_interface_handler_ failed");
+    exit(1);
+  }
+}

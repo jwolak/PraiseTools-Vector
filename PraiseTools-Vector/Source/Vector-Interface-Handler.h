@@ -46,11 +46,18 @@
 
 namespace praise_tools {
 
-template <class T>
+template<class T>
 class VectorInterfaceHandler {
  public:
-  VectorInterfaceHandler(std::shared_ptr<VectorDataContainer<T>> vec_data_container);
-  bool InitVectorObj(T);
+  VectorInterfaceHandler(std::shared_ptr<VectorDataContainer<T>> vec_data_container)
+      :
+      vector_data_container_ { vec_data_container } {
+    this->InitVectorObj();
+  }
+
+  bool InitVectorObj();
+  bool DisposeOfVectorObj();
+  bool AddNewElelemntToVector(T&);
 
  private:
   std::shared_ptr<VectorDataContainer<T>> vector_data_container_;
