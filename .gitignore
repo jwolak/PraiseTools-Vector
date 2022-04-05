@@ -69,4 +69,5 @@ UnitTests/Build/CMakeFiles/
 UnitTests/Build/Makefile
 UnitTests/Build/cmake_install.cmake
 UnitTests/Build/*.log
+UnitTests/*.log
 

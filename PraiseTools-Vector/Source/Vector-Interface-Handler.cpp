@@ -47,9 +47,12 @@
 template<class T>
 bool praise_tools::VectorInterfaceHandler<T>::InitVectorObj() {
 
+  LOG_DEBUG("%s","VectorInterfaceHandler<T>::InitVectorObj()");
+
   vector_data_container_->vector_data = (T**) std::malloc(sizeof(T*));
   vector_data_container_->vector_data_size = 0;
 
+  LOG_DEBUG("%s", "Vector initialized successfully");
   return true;
 }
 
@@ -77,10 +80,17 @@ bool praise_tools::VectorInterfaceHandler<T>::DisposeOfVectorObj() {
 }
 
 template<class T>
-bool praise_tools::VectorInterfaceHandler<T>::AddNewElelemntToVector(T &new_element) {
+bool praise_tools::VectorInterfaceHandler<T>::AddNewElelemntToVector(T new_element) {
 
   if (*vector_data_container_->vector_data == nullptr) {
     LOG_ERROR("%s", "Vector not initialized");
+    return false;
+  }
+
+  vector_data_container_->vector_data = (T**) std::realloc(vector_data_container_->vector_data, (vector_data_container_->vector_data_size + 1) * sizeof(T*));
+
+  if (vector_data_container_->vector_data == nullptr) {
+    LOG_ERROR("%s%d", "Failed of **vector_data realloc to size: ", vector_data_container_->vector_data_size + 1);
     return false;
   }
 

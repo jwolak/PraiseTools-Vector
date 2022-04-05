@@ -57,7 +57,7 @@ class VectorInterfaceHandler {
 
   bool InitVectorObj();
   bool DisposeOfVectorObj();
-  bool AddNewElelemntToVector(T&);
+  bool AddNewElelemntToVector(T);
 
  private:
   std::shared_ptr<VectorDataContainer<T>> vector_data_container_;

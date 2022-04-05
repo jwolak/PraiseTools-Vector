@@ -58,12 +58,22 @@ class VectorInterfaceHandlerTests : public ::testing::Test {
   std::unique_ptr<praise_tools::VectorInterfaceHandler<T>> vector_interface_handler;
 };
 
-using MyTypes = ::testing::Types<char, int, unsigned int>;
+/*using MyTypes = ::testing::Types<char, int, unsigned int>;*/
+using MyTypes = ::testing::Types<int, unsigned int>;
 TYPED_TEST_SUITE(VectorInterfaceHandlerTests, MyTypes);
 
-TYPED_TEST(VectorInterfaceHandlerTests, Test1) {
+/*TYPED_TEST(VectorInterfaceHandlerTests, Test1) {
   this->vector_interface_handler->InitVectorObj();
   ASSERT_TRUE(this->vector_data_container->vector_data != nullptr);
+}*/
+
+TYPED_TEST(VectorInterfaceHandlerTests, Test2) {
+  this->vector_interface_handler->AddNewElelemntToVector(5);
+  this->vector_interface_handler->AddNewElelemntToVector(6);
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 2);
+  ASSERT_EQ(*this->vector_data_container->vector_data[0], 5);
+  ASSERT_EQ(*this->vector_data_container->vector_data[1], 6);
+
 }
 
 } /*namespace vector_interface_handler_tests*/
