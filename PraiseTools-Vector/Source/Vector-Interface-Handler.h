@@ -52,7 +52,6 @@ class VectorInterfaceHandler {
   VectorInterfaceHandler(std::shared_ptr<VectorDataContainer<T>> vec_data_container)
       :
       vector_data_container_ { vec_data_container } {
-    this->InitVectorObj();
   }
 
   bool InitVectorObj();

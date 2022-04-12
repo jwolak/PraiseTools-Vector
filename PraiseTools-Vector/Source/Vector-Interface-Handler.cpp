@@ -59,22 +59,31 @@ bool praise_tools::VectorInterfaceHandler<T>::InitVectorObj() {
 template<class T>
 bool praise_tools::VectorInterfaceHandler<T>::DisposeOfVectorObj() {
 
+  LOG_DEBUG("%s", "VectorInterfaceHandler<T>::DisposeOfVectorObj()");
+
   if (vector_data_container_->vector_data != nullptr) {
+    LOG_DEBUG("%s", "vector_data_container_->vector_data is not nullptr");
     if (vector_data_container_->vector_data_size > 0) {
+      LOG_DEBUG("%s%d","vector_data_container_->vector_data_size: ", vector_data_container_->vector_data_size);
       for (int i = 0; i < vector_data_container_->vector_data_size; ++i) {
         delete vector_data_container_->vector_data[i];
+        LOG_DEBUG("%s%d%s", "vector_data_container_->vector_data[", i, "] deleted");
       }
     } else {
-      LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector object is empty");
+      LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector has no elements added");
     }
 
+    LOG_DEBUG("%s", "Try to dispose of vector_data_container_->vector_data");
     free(vector_data_container_->vector_data);
-    LOG_DEBUG("%s", "DisposeOfVectorObj(): All Vector's objects have been disposed of");
+    LOG_DEBUG("%s", "DisposeOfVectorObj(): vector_data_container_->vector_data has been disposed of");
 
   } else {
-    LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector object has not been created");
+    LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector object has not been initialized");
     return false;
   }
+
+  LOG_DEBUG("%s", "vector_data_container_->vector_data_size set to zero" );
+  vector_data_container_->vector_data_size = 0;
 
   return true;
 }
@@ -104,6 +113,6 @@ bool praise_tools::VectorInterfaceHandler<T>::AddNewElelemntToVector(T new_eleme
   *vector_data_container_->vector_data[vector_data_container_->vector_data_size] = new_element;
 
   ++vector_data_container_->vector_data_size;
-  LOG_DEBUG("%s%d", "New Vector element added successfuly. Vector size is: ", vector_data_container_->vector_data_size);
+  LOG_DEBUG("%s%d", "New Vector element added successfully. Vector size is: ", vector_data_container_->vector_data_size);
   return true;
 }
