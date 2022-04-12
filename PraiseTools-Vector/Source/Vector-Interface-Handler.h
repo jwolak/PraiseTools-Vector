@@ -58,6 +58,7 @@ class VectorInterfaceHandler {
   bool DisposeOfVectorObj();
   bool AddNewElelemntToVector(T);
   bool CopyVectorToVector(const VectorDataContainer<T> &source_vector_data_container);
+  bool MoveVectorToVector(VectorDataContainer<T> &&source_vector_data_container);
 
  private:
   std::shared_ptr<VectorDataContainer<T>> vector_data_container_;

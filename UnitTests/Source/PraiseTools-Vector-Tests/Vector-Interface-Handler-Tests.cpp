@@ -159,6 +159,19 @@ TYPED_TEST(VectorInterfaceHandlerTests, Allocate_Source_Vector_Data_Container_An
   ASSERT_EQ(this->vector_data_container->vector_data_size, 1);
 }
 
+TYPED_TEST(VectorInterfaceHandlerTests, Allocate_Source_Vector_Data_Container_And_Try_To_Move_It_To_Another_Vector_Container_And_Element_Is_Moved) {
+  this->AllocateVectorDataContainerSource();
+  this->vector_interface_handler->MoveVectorToVector(std::move(*this->vector_data_container_source));
+  ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Allocate_Source_Vector_Data_Container_And_Try_To_Move_It_To_Another_Vector_Container_And_Size_Is_Set_To_One) {
+  this->AllocateVectorDataContainerSource();
+  this->vector_interface_handler->MoveVectorToVector(std::move(*this->vector_data_container_source));
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 1);
+  ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
+}
+
 } /*namespace vector_interface_handler_tests*/
 
 

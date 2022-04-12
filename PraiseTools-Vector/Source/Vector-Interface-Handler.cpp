@@ -136,3 +136,19 @@ bool praise_tools::VectorInterfaceHandler<T>::CopyVectorToVector(const praise_to
   LOG_DEBUG("%s", "Copy vector to vector is successful");
   return true;
 }
+
+template<class T>
+bool praise_tools::VectorInterfaceHandler<T>::MoveVectorToVector(VectorDataContainer<T> &&source_vector_data_container) {
+
+  LOG_DEBUG("%s", "VectorInterfaceHandler<T>::MoveVectorToVector");
+  LOG_DEBUG("%s%d", "Number of Vector elements to be moved: ", source_vector_data_container.vector_data_size);
+
+  *vector_data_container_ = static_cast<praise_tools::VectorDataContainer<T>&&>(std::move(source_vector_data_container));
+  if (vector_data_container_ == nullptr) {
+    LOG_ERROR("%s", "Move of source_vector_data_container failed");
+    return false;
+  }
+
+  LOG_DEBUG("%s", "Move vector to vector is successful");
+  return true;
+}

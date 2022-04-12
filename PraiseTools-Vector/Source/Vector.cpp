@@ -98,6 +98,7 @@ praise_tools::Vector<T>::Vector(const Vector &source_vector)
     vec_data_container_ { new VectorDataContainer<T> },
     vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
 
+  LOG_DEBUG("%s", "Copy constructor called");
   LOG_DEBUG("%s", "Vector<T>::Vector(const Vector &)");
 
   if (vector_interface_handler_->InitVectorObj()) {
@@ -119,17 +120,25 @@ praise_tools::Vector<T>::Vector(const Vector &source_vector)
 template<class T>
 praise_tools::Vector<T>::Vector(const Vector &&source_vector) {
 
-  LOG_DEBUG("%s", "Vector<T>::Vector(const Vector)");
+  LOG_DEBUG("%s", "Move constructor called");
+  LOG_DEBUG("%s", "Vector<T>::Vector(const Vector&&)");
 
-  vec_data_container_ = std::move(source_vector->vec_data_container_);
+  if (!vector_interface_handler_->MoveVectorToVector(source_vector->vec_data_container_)) {
+    LOG_ERROR("%s", "Move constructor failed to proceed");
+    exit(1);
+  }
+
+  LOG_DEBUG("%s", "Move constructor successfully moved all elements");
+
+/*  vec_data_container_ = std::move(source_vector->vec_data_container_);
   if (vec_data_container_ == nullptr) {
     LOG_ERROR("%s", "Move of vec_data_container_ failed");
     exit(1);
-  }
+  }*/
 
-  vector_interface_handler_ = std::move(source_vector->vector_interface_handler_);
+/*  vector_interface_handler_ = std::move(source_vector->vector_interface_handler_);
   if (vector_interface_handler_ == nullptr) {
     LOG_ERROR("%s", "Move of vector_interface_handler_ failed");
     exit(1);
-  }
+  }*/
 }
