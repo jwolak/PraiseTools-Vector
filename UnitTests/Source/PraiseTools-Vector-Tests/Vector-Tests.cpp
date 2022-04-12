@@ -1,5 +1,5 @@
 /*
- * Vector-Interface-Handler.h
+ * Vector-Tests.cpp
  *
  *  Created on: 2022
  *      Author: Janusz Wolak
@@ -37,32 +37,23 @@
  *
  */
 
-#ifndef SOURCE_VECTOR_INTERFACE_HANDLER_H_
-#define SOURCE_VECTOR_INTERFACE_HANDLER_H_
-
-#include "Vector-Data-Container.h"
+#include <gtest/gtest.h>
 
 #include <memory>
 
-namespace praise_tools {
+#include "../../PraiseTools-Vector/PraiseTools-Vector/Source/Vector.cpp"
+
+namespace vector_tests {
+
+namespace {
+}
 
 template<class T>
-class VectorInterfaceHandler {
+class VectorTests : public ::testing::Test {
  public:
-  VectorInterfaceHandler(std::shared_ptr<VectorDataContainer<T>> vec_data_container)
-      :
-      vector_data_container_ { vec_data_container } {
-  }
+  VectorTests() {}
 
-  bool InitVectorObj();
-  bool DisposeOfVectorObj();
-  bool AddNewElelemntToVector(T);
-  bool CopyVectorToVector(const VectorDataContainer<T> &source_vector_data_container);
-
- private:
-  std::shared_ptr<VectorDataContainer<T>> vector_data_container_;
+  std::unique_ptr<praise_tools::Vector<T>> Vector;
 };
 
-} /*namespace praise_tools */
-
-#endif /* SOURCE_VECTOR_INTERFACE_HANDLER_H_ */
+} /*namespace vector_tests*/

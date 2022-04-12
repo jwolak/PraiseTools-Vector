@@ -46,6 +46,7 @@
 namespace vector_interface_handler_tests {
 
 namespace {
+typedef int TestTypeInt;
 const int kNewVectorElement = 7;
 const int kNumberOfElementsInVector = 10;
 }
@@ -56,7 +57,9 @@ class VectorInterfaceHandlerTests : public ::testing::Test {
   VectorInterfaceHandlerTests()
       :
       vector_data_container { new praise_tools::VectorDataContainer<T> },
-      vector_interface_handler { new praise_tools::VectorInterfaceHandler<T> { vector_data_container } } {
+      vector_interface_handler { new praise_tools::VectorInterfaceHandler<T> { vector_data_container } },
+      vector_data_container_source { new praise_tools::VectorDataContainer<T> }
+      {
   }
 
   void SetUp() override {
@@ -88,11 +91,20 @@ class VectorInterfaceHandlerTests : public ::testing::Test {
     ++vector_data_container->vector_data_size;
   }
 
+  void AllocateVectorDataContainerSource() {
+    vector_data_container_source->vector_data = (T**) std::malloc(sizeof(T*));
+    vector_data_container_source->vector_data_size = 0;
+    vector_data_container_source->vector_data[vector_data_container_source->vector_data_size] = new (T);
+    *vector_data_container_source->vector_data[vector_data_container_source->vector_data_size] = kNewVectorElement;
+    ++vector_data_container_source->vector_data_size;
+  }
+
   std::shared_ptr<praise_tools::VectorDataContainer<T>> vector_data_container;
   std::unique_ptr<praise_tools::VectorInterfaceHandler<T>> vector_interface_handler;
+  std::unique_ptr<praise_tools::VectorDataContainer<T>> vector_data_container_source;
 };
 
-using MyTypes = ::testing::Types<int>;
+using MyTypes = ::testing::Types<TestTypeInt>;
 TYPED_TEST_SUITE(VectorInterfaceHandlerTests, MyTypes);
 
 TYPED_TEST(VectorInterfaceHandlerTests, Try_To_Init_Vactor_Object_And_Vector_Data_Pointer_Is_Not_Null) {
@@ -133,6 +145,18 @@ TYPED_TEST(VectorInterfaceHandlerTests, Try_To_Dispose_Of_Vector_Object_And_Vect
   this->AddTestElement(kNewVectorElement);
   this->vector_interface_handler->DisposeOfVectorObj();
   ASSERT_EQ(this->vector_data_container->vector_data_size, 0);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Allocate_Source_Vector_Data_Container_And_Try_To_Copy_It_To_Another_Vector_Container_And_Element_Is_Copied) {
+  this->AllocateVectorDataContainerSource();
+  this->vector_interface_handler->CopyVectorToVector(*this->vector_data_container_source);
+  ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Allocate_Source_Vector_Data_Container_And_Try_To_Copy_It_To_Another_Vector_Container_And_Size_Is_Set_To_One) {
+  this->AllocateVectorDataContainerSource();
+  this->vector_interface_handler->CopyVectorToVector(*this->vector_data_container_source);
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 1);
 }
 
 } /*namespace vector_interface_handler_tests*/

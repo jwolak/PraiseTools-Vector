@@ -5,6 +5,7 @@
 
 #include "Logger.h"
 #include "PraiseTools-Vector-Tests/Vector-Interface-Handler-Tests.cpp"
+#include "PraiseTools-Vector-Tests/Vector-Tests.cpp"
 
 int main(int argc, char **argv) {
     SET_LOG_LEVEL(equinox_logger::LogLevelType::LOG_LEVEL_DEBUG);

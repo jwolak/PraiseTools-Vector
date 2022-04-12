@@ -116,3 +116,23 @@ bool praise_tools::VectorInterfaceHandler<T>::AddNewElelemntToVector(T new_eleme
   LOG_DEBUG("%s%d", "New Vector element added successfully. Vector size is: ", vector_data_container_->vector_data_size);
   return true;
 }
+
+template<class T>
+bool praise_tools::VectorInterfaceHandler<T>::CopyVectorToVector(const praise_tools::VectorDataContainer<T> &source_vector_data_container) {
+
+  LOG_DEBUG("%s", "VectorInterfaceHandler<T>::CopyVectorToVector");
+  LOG_DEBUG("%s%d", "Number of Vector elements to be copied: ", source_vector_data_container.vector_data_size);
+
+  for (int i = 0; i < source_vector_data_container.vector_data_size; ++i) {
+    if (AddNewElelemntToVector(*source_vector_data_container.vector_data[i])) {
+      LOG_DEBUG("%s%d", "Copied element no: ", i + 1);
+      LOG_DEBUG("%s", "Copy Vector element is successful");
+    } else {
+      LOG_ERROR("%s", "Copy Vector element is is failed");
+      return false;
+    }
+  }
+
+  LOG_DEBUG("%s", "Copy vector to vector is successful");
+  return true;
+}

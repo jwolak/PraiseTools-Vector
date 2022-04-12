@@ -103,13 +103,11 @@ praise_tools::Vector<T>::Vector(const Vector &source_vector)
   if (vector_interface_handler_->InitVectorObj()) {
     LOG_DEBUG("%s", "Vector object initialization is successful");
 
-    for (int i = 0; i < source_vector->vec_data_container_->vector_data_size; ++i) {
-      if (vector_interface_handler_->AddNewElelemntToVector(*source_vector->vec_data_container_->vector_data[i])) {
-        LOG_DEBUG("%s", "Copy Vector element is successful");
-      } else {
-        LOG_ERROR("%s", "Copy Vector element is is failed");
-        exit(1);
-      }
+    if (!vector_interface_handler_->CopyVectorToVector(source_vector->vec_data_container_)) {
+      LOG_ERROR("%s", "Copy constructor failed to proceed");
+      exit(1);
+    } else {
+      LOG_DEBUG("%s", "Copy constructor successfully copied all elements");
     }
 
   } else {
