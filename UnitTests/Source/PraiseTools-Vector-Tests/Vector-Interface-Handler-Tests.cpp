@@ -253,7 +253,24 @@ TYPED_TEST(VectorInterfaceHandlerTests, Add_Four_Elements_And_Try_To_Removed_Wit
   ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
   ASSERT_EQ(*this->vector_data_container->vector_data[1], kNewVectorElementNoThree);
   ASSERT_EQ(*this->vector_data_container->vector_data[2], kNewVectorElementNoFour);
+}
 
+TYPED_TEST(VectorInterfaceHandlerTests, Insert_New_Element_At_The_Begenning_Of_Vector_And_It_Is_Successful) {
+  this->AddTestElement(kNewVectorElement);
+  this->AddTestElement(kNewVectorElementNoTwo);
+  this->AddTestElement(kNewVectorElementNoThree);
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 3);
+  ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
+  ASSERT_EQ(*this->vector_data_container->vector_data[1], kNewVectorElementNoTwo);
+  ASSERT_EQ(*this->vector_data_container->vector_data[2], kNewVectorElementNoThree);
+
+  this->vector_interface_handler->InsertInHead(kNewVectorElementNoFour);
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 4);
+
+  ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElementNoFour);
+  ASSERT_EQ(*this->vector_data_container->vector_data[1], kNewVectorElement);
+  ASSERT_EQ(*this->vector_data_container->vector_data[2], kNewVectorElementNoTwo);
+  ASSERT_EQ(*this->vector_data_container->vector_data[3], kNewVectorElementNoThree);
 }
 
 } /*namespace vector_interface_handler_tests*/

@@ -235,7 +235,17 @@ class Vector {
     LOG_DEBUG("%s%d%s", "Erased element: ", element_index);
   }
 
-  void Insert(T&);
+  void Insert(T new_element) {
+
+    LOG_DEBUG("%s", "Vector<T>::Insert(T) called");
+
+    if (InsertInHead(new_element)) {
+      LOG_ERROR("%s", "Failed to insert a new element at head of Vector");
+      exit(1);
+    } else {
+      LOG_DEBUG("%s", "Inserted a new element at head of Vector");
+    }
+  }
 
 private:
   std::shared_ptr<VectorDataContainer<T>> vec_data_container_;

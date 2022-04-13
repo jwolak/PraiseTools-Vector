@@ -311,6 +311,45 @@ class VectorInterfaceHandler {
     return true;
   }
 
+  bool InsertInHead(T new_element) {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::InsertInHead(T)");
+
+    if (*vector_data_container_->vector_data == nullptr) {
+      LOG_ERROR("%s", "Vector not initialized");
+      return false;
+    }
+
+    vector_data_container_->vector_data = (T**) std::realloc(vector_data_container_->vector_data, (vector_data_container_->vector_data_size + 1) * sizeof(T*));
+
+    if (vector_data_container_->vector_data == nullptr) {
+      LOG_ERROR("%s%d", "Failed of **vector_data realloc to size: ", vector_data_container_->vector_data_size + 1);
+      return false;
+    }
+
+    vector_data_container_->vector_data[vector_data_container_->vector_data_size] = new (T);
+
+    if (vector_data_container_->vector_data[vector_data_container_->vector_data_size] == nullptr) {
+      LOG_ERROR("%s", "New Vector element allocation is failed");
+      return false;
+    }
+
+    ++vector_data_container_->vector_data_size;
+
+    uint32_t number_of_shifts = 0;
+    for (int i = vector_data_container_->vector_data_size - 1; i > 0; --i) {
+      LOG_DEBUG("%s%d%s%d%s", "Shifts data from cell vector_data_container_->vector_data[", i - 1, "] to vector_data_container_->vector_data[", i, "]");
+      *vector_data_container_->vector_data[i] = *vector_data_container_->vector_data[i - 1];
+      ++number_of_shifts;
+    }
+
+    *vector_data_container_->vector_data[0] = new_element;
+
+    LOG_DEBUG("%s%d", "New element at the beginning of Vector added successfully. Vector size is: ", vector_data_container_->vector_data_size);
+    LOG_DEBUG("%s%d", "Number of shifted elements is: ", number_of_shifts);
+    return true;
+  }
+
  private:
   std::shared_ptr<VectorDataContainer<T>> vector_data_container_;
 };
