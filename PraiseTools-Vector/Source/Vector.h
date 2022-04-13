@@ -212,10 +212,19 @@ class Vector {
     return vector_interface_handler_->GetVectorSize();
   }
 
-  void Clear();
+  void Clear() {
+
+    LOG_DEBUG("%s", "Vector<T>::Clear() called");
+    if (!vector_interface_handler_->ClearVector()) {
+      LOG_ERROR("%s", "Clear Vector failed");
+      exit(1);
+    }
+
+    LOG_DEBUG("%s", "Clear Vector successful");
+  }
+
   void Insert(T&);
   void Erase(uint32_t);
-  void Emplace_back(T&);
 
 private:
   std::shared_ptr<VectorDataContainer<T>> vec_data_container_;

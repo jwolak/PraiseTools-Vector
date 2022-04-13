@@ -178,6 +178,19 @@ TYPED_TEST(VectorInterfaceHandlerTests, Add_New_Element_To_Vector_And_Get_It_By_
   ASSERT_EQ(this->vector_interface_handler->GetElementByIndex(0), kNewVectorElement);
 }
 
+TYPED_TEST(VectorInterfaceHandlerTests, Add_New_Elements_To_Vector_And_Get_It_By_Index_Is_Successfull) {
+  this->AddTestElement(kNewVectorElement);
+  this->AddTestElement(kNewVectorElement + 1);
+  ASSERT_EQ(this->vector_interface_handler->GetElementByIndex(1), kNewVectorElement + 1);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Add_More_Elements_To_Vector_And_Get_It_By_Index_Is_Successfull) {
+  this->AddTestElement(kNewVectorElement);
+  this->AddTestElement(kNewVectorElement + 1);
+  this->AddTestElement(kNewVectorElement + 2);
+  ASSERT_EQ(this->vector_interface_handler->GetElementByIndex(2), kNewVectorElement + 2);
+}
+
 TYPED_TEST(VectorInterfaceHandlerTests, Add_Same_Elements_To_Two_Vectors_And_Compared_Them_And_True_Returned) {
   this->AddTestElement(kNewVectorElement);
   this->AllocateVectorDataContainerSource();
@@ -206,6 +219,22 @@ TYPED_TEST(VectorInterfaceHandlerTests, Add_One_Elements_And_GetVectorSize_Shoul
 
 TYPED_TEST(VectorInterfaceHandlerTests, None_Elements_And_GetVectorSize_Should_Return_Zero) {
   ASSERT_EQ(this->vector_interface_handler->GetVectorSize(), 0);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Add_Three_Elements_To_Vector_And_Remove_All_Of_Them_And_True_Returned) {
+  this->AddTestElement(kNewVectorElement);
+  this->AddTestElement(kNewVectorElement + 1);
+  this->AddTestElement(kNewVectorElement + 2);
+  ASSERT_TRUE(this->vector_interface_handler->ClearVector());
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Add_Three_Elements_To_Vector_And_Remove_All_Of_Them_And_Vector_Size_Reseted_To_Zero) {
+  this->AddTestElement(kNewVectorElement);
+  this->AddTestElement(kNewVectorElement + 1);
+  this->AddTestElement(kNewVectorElement + 2);
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 3);
+  this->vector_interface_handler->ClearVector();
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 0);
 }
 
 } /*namespace vector_interface_handler_tests*/

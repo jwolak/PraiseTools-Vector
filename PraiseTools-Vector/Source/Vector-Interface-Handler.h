@@ -247,6 +247,38 @@ class VectorInterfaceHandler {
     return vector_data_container_->vector_data_size;
   }
 
+  bool ClearVector() {
+
+    int i = 0;
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::ClearVector");
+
+    if (vector_data_container_->vector_data != nullptr) {
+      LOG_DEBUG("%s", "vector_data_container_->vector_data is not nullptr");
+      if (vector_data_container_->vector_data_size > 0) {
+        LOG_DEBUG("%s%d", "vector_data_container_->vector_data_size: ", vector_data_container_->vector_data_size);
+        for (i = 0; i < vector_data_container_->vector_data_size; ++i) {
+          delete vector_data_container_->vector_data[i];
+          LOG_DEBUG("%s%d%s", "vector_data_container_->vector_data[", i, "] deleted");
+        }
+      } else {
+        LOG_DEBUG("%s", "ClearVector(): Vector has no elements added");
+      }
+
+    } else {
+      LOG_DEBUG("%s", "ClearVector(): Vector object has not been initialized");
+      return false;
+    }
+
+    if (vector_data_container_->vector_data_size == i) {
+      LOG_DEBUG("%s", "Vector cleared");
+      LOG_DEBUG("%d%s", i, " element(s) removed");
+      vector_data_container_->vector_data_size = 0;
+      LOG_DEBUG("%s", "Vector size reset to zero");
+      return true;
+    }
+    return false;
+  }
+
  private:
   std::shared_ptr<VectorDataContainer<T>> vector_data_container_;
 };
