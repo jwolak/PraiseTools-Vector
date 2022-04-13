@@ -133,6 +133,34 @@ class VectorInterfaceHandler {
     return true;
   }
 
+  bool AddNewElelemntToVector(T* new_element) {
+
+    if (*vector_data_container_->vector_data == nullptr) {
+      LOG_ERROR("%s", "Vector not initialized");
+      return false;
+    }
+
+    vector_data_container_->vector_data = (T**) std::realloc(vector_data_container_->vector_data, (vector_data_container_->vector_data_size + 1) * sizeof(T*));
+
+    if (vector_data_container_->vector_data == nullptr) {
+      LOG_ERROR("%s%d", "Failed of **vector_data realloc to size: ", vector_data_container_->vector_data_size + 1);
+      return false;
+    }
+
+    vector_data_container_->vector_data[vector_data_container_->vector_data_size] = new (T);
+
+    if (vector_data_container_->vector_data[vector_data_container_->vector_data_size] == nullptr) {
+      LOG_ERROR("%s", "New Vector element allocation is failed");
+      return false;
+    }
+
+    *vector_data_container_->vector_data[vector_data_container_->vector_data_size] = *new_element;
+
+    ++vector_data_container_->vector_data_size;
+    LOG_DEBUG("%s%d", "New Vector element added successfully. Vector size is: ", vector_data_container_->vector_data_size);
+    return true;
+  }
+
   bool CopyVectorToVector(const praise_tools::VectorDataContainer<T> &source_vector_data_container) {
 
     LOG_DEBUG("%s", "VectorInterfaceHandler<T>::CopyVectorToVector");
@@ -203,6 +231,20 @@ class VectorInterfaceHandler {
 
     LOG_DEBUG("%s", "Compared Vectors are equal");
     return true;
+  }
+
+  bool IsVectorEmpty() {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::IsVectorEmpty");
+
+    return vector_data_container_->vector_data_size == 0;
+  }
+
+  uint32_t GetVectorSize() {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::GetVectorSize");
+    LOG_DEBUG("%s%d", "Vector size is: ", vector_data_container_->vector_data_size);
+    return vector_data_container_->vector_data_size;
   }
 
  private:

@@ -169,7 +169,7 @@ class Vector {
     return true;
   }
 
-  void Add(T new_element) {
+  void Push_back(T new_element) {
 
     LOG_DEBUG("%s", "Vector<T>::Add(T&) called");
 
@@ -181,13 +181,40 @@ class Vector {
     }
   }
 
-  T& GetElement();
-  bool IsEmpty();
-  uint32_t Size();
+  void Push_back(T* new_element) {
+
+    LOG_DEBUG("%s", "Vector<T>::Add(T&) called");
+
+    if (vector_interface_handler_->AddNewElelemntToVector(new_element)) {
+      LOG_DEBUG("%s", "Add element is successful");
+    } else {
+      LOG_ERROR("%s", "Add element is failed");
+      exit(1);
+    }
+  }
+
+  T& GetElement(uint32_t element_index) {
+
+    LOG_DEBUG("%s", "Vector<T>::GetElement(uint32_t) called");
+    LOG_DEBUG("%s%d", "Index number requested: ", element_index);
+    return vector_interface_handler_->GetElementByIndex(element_index);
+  }
+
+  bool IsEmpty() {
+
+    LOG_DEBUG("%s", "Vector<T>::IsEmpty() called");
+    return vector_interface_handler_->IsVectorEmpty();
+  }
+
+  uint32_t Size() {
+
+    LOG_DEBUG("%s", "Vector<T>::Size() called");
+    return vector_interface_handler_->GetVectorSize();
+  }
+
   void Clear();
   void Insert(T&);
   void Erase(uint32_t);
-  void Push_back(T&);
   void Emplace_back(T&);
 
 private:

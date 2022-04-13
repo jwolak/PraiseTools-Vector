@@ -47,7 +47,7 @@ int main() {
   SET_LOG_LEVEL(equinox_logger::LogLevelType::LOG_LEVEL_DEBUG);
 
   praise_tools::Vector<int> test_vector;
-  test_vector.Add(21);
+  test_vector.Push_back(21);
 
   return 0;
 }

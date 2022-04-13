@@ -190,6 +190,24 @@ TYPED_TEST(VectorInterfaceHandlerTests, Add_Different_Elements_To_Two_Vectors_An
   ASSERT_FALSE(this->vector_interface_handler->CompareVectorToVector(*this->vector_data_container_source));
 }
 
+TYPED_TEST(VectorInterfaceHandlerTests, Add_One_Elements_And_IsVectorEmpty_Should_Return_False) {
+  this->AddTestElement(kNewVectorElement);
+  ASSERT_FALSE(this->vector_interface_handler->IsVectorEmpty());
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, None_Elements_And_IsVectorEmpty_Should_Return_True) {
+  ASSERT_TRUE(this->vector_interface_handler->IsVectorEmpty());
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Add_One_Elements_And_GetVectorSize_Should_Return_One) {
+  this->AddTestElement(kNewVectorElement);
+  ASSERT_EQ(this->vector_interface_handler->GetVectorSize(), 1);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, None_Elements_And_GetVectorSize_Should_Return_Zero) {
+  ASSERT_EQ(this->vector_interface_handler->GetVectorSize(), 0);
+}
+
 } /*namespace vector_interface_handler_tests*/
 
 
