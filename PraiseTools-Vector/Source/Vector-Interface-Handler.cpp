@@ -152,3 +152,18 @@ bool praise_tools::VectorInterfaceHandler<T>::MoveVectorToVector(VectorDataConta
   LOG_DEBUG("%s", "Move vector to vector is successful");
   return true;
 }
+
+template<class T>
+T& praise_tools::VectorInterfaceHandler<T>::GetElementByIndex(uint32_t element_index) {
+
+  LOG_DEBUG("%s", "VectorInterfaceHandler<T>::GetElementByIndex");
+  LOG_DEBUG("%s%d", "Index number: ", element_index);
+
+  if (element_index > vector_data_container_->vector_data_size) {
+    LOG_ERROR("%s%d%s", "Provided index:", element_index, " is out of Vector range");
+    exit(1);
+  }
+
+  LOG_DEBUG("%s%d%s", "Element with index:", element_index, " found and returned");
+  return *vector_data_container_->vector_data[element_index];
+}

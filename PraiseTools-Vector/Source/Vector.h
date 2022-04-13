@@ -73,8 +73,6 @@ class Vector {
 private:
   std::unique_ptr<VectorInterfaceHandler<T>> vector_interface_handler_;
   std::shared_ptr<VectorDataContainer<T>> vec_data_container_;
-/*  T **tab_vector_;
-  uint32_t vector_size_;*/
 };
 
 } /*namespace praise_tools*/

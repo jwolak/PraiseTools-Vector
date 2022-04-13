@@ -172,6 +172,11 @@ TYPED_TEST(VectorInterfaceHandlerTests, Allocate_Source_Vector_Data_Container_An
   ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
 }
 
+TYPED_TEST(VectorInterfaceHandlerTests, Add_New_Element_To_Vector_And_Get_It_By_Index_Is_Successfull) {
+  this->AddTestElement(kNewVectorElement);
+  ASSERT_EQ(this->vector_interface_handler->GetElementByIndex(0), kNewVectorElement);
+}
+
 } /*namespace vector_interface_handler_tests*/
 
 

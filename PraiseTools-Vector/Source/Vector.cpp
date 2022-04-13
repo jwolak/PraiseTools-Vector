@@ -129,16 +129,12 @@ praise_tools::Vector<T>::Vector(const Vector &&source_vector) {
   }
 
   LOG_DEBUG("%s", "Move constructor successfully moved all elements");
+}
 
-/*  vec_data_container_ = std::move(source_vector->vec_data_container_);
-  if (vec_data_container_ == nullptr) {
-    LOG_ERROR("%s", "Move of vec_data_container_ failed");
-    exit(1);
-  }*/
+template<class T>
+T& praise_tools::Vector<T>::operator [](uint32_t element_index) {
 
-/*  vector_interface_handler_ = std::move(source_vector->vector_interface_handler_);
-  if (vector_interface_handler_ == nullptr) {
-    LOG_ERROR("%s", "Move of vector_interface_handler_ failed");
-    exit(1);
-  }*/
+  LOG_DEBUG("%s", "Vector<T>::operator [] called");
+  LOG_DEBUG("%s%d", "Index number requested: ", element_index);
+  return vector_interface_handler_->GetElementByIndex(element_index);
 }
