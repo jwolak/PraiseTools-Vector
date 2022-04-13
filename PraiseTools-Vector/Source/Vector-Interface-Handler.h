@@ -44,6 +44,8 @@
 
 #include <memory>
 
+#include "Logger.h"
+
 namespace praise_tools {
 
 template<class T>
@@ -54,13 +56,154 @@ class VectorInterfaceHandler {
       vector_data_container_ { vec_data_container } {
   }
 
-  bool InitVectorObj();
-  bool DisposeOfVectorObj();
-  bool AddNewElelemntToVector(T);
-  bool CopyVectorToVector(const VectorDataContainer<T> &source_vector_data_container);
-  bool MoveVectorToVector(VectorDataContainer<T> &&source_vector_data_container);
-  T&  GetElementByIndex(uint32_t element_index);
-  bool CompareVectorToVector(const VectorDataContainer<T> &source_vector_data_container);
+  bool InitVectorObj() {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::InitVectorObj()");
+
+    if (vector_data_container_ == nullptr) {
+      LOG_ERROR("%s", "vector_data_container_ not initialized");
+      return false;
+    } else {
+      LOG_DEBUG("%s", "vector_data_container_ is initialized");
+    }
+
+    vector_data_container_->vector_data = (T**) std::malloc(sizeof(T*));
+    vector_data_container_->vector_data_size = 0;
+
+    LOG_DEBUG("%s", "Vector initialized successfully");
+    return true;
+  }
+
+  bool DisposeOfVectorObj() {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::DisposeOfVectorObj()");
+
+    if (vector_data_container_->vector_data != nullptr) {
+      LOG_DEBUG("%s", "vector_data_container_->vector_data is not nullptr");
+      if (vector_data_container_->vector_data_size > 0) {
+        LOG_DEBUG("%s%d", "vector_data_container_->vector_data_size: ", vector_data_container_->vector_data_size);
+        for (int i = 0; i < vector_data_container_->vector_data_size; ++i) {
+          delete vector_data_container_->vector_data[i];
+          LOG_DEBUG("%s%d%s", "vector_data_container_->vector_data[", i, "] deleted");
+        }
+      } else {
+        LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector has no elements added");
+      }
+
+      LOG_DEBUG("%s", "Try to dispose of vector_data_container_->vector_data");
+      free(vector_data_container_->vector_data);
+      LOG_DEBUG("%s", "DisposeOfVectorObj(): vector_data_container_->vector_data has been disposed of");
+
+    } else {
+      LOG_DEBUG("%s", "DisposeOfVectorObj(): Vector object has not been initialized");
+      return false;
+    }
+
+    LOG_DEBUG("%s", "vector_data_container_->vector_data_size set to zero");
+    vector_data_container_->vector_data_size = 0;
+
+    return true;
+  }
+
+  bool AddNewElelemntToVector(T new_element) {
+
+    if (*vector_data_container_->vector_data == nullptr) {
+      LOG_ERROR("%s", "Vector not initialized");
+      return false;
+    }
+
+    vector_data_container_->vector_data = (T**) std::realloc(vector_data_container_->vector_data, (vector_data_container_->vector_data_size + 1) * sizeof(T*));
+
+    if (vector_data_container_->vector_data == nullptr) {
+      LOG_ERROR("%s%d", "Failed of **vector_data realloc to size: ", vector_data_container_->vector_data_size + 1);
+      return false;
+    }
+
+    vector_data_container_->vector_data[vector_data_container_->vector_data_size] = new (T);
+
+    if (vector_data_container_->vector_data[vector_data_container_->vector_data_size] == nullptr) {
+      LOG_ERROR("%s", "New Vector element allocation is failed");
+      return false;
+    }
+
+    *vector_data_container_->vector_data[vector_data_container_->vector_data_size] = new_element;
+
+    ++vector_data_container_->vector_data_size;
+    LOG_DEBUG("%s%d", "New Vector element added successfully. Vector size is: ", vector_data_container_->vector_data_size);
+    return true;
+  }
+
+  bool CopyVectorToVector(const praise_tools::VectorDataContainer<T> &source_vector_data_container) {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::CopyVectorToVector");
+    LOG_DEBUG("%s%d", "Number of Vector elements to be copied: ", source_vector_data_container.vector_data_size);
+
+    for (int i = 0; i < source_vector_data_container.vector_data_size; ++i) {
+      if (AddNewElelemntToVector(*source_vector_data_container.vector_data[i])) {
+        LOG_DEBUG("%s%d", "Copied element no: ", i + 1);
+        LOG_DEBUG("%s", "Copy Vector element is successful");
+      } else {
+        LOG_ERROR("%s", "Copy Vector element is is failed");
+        return false;
+      }
+    }
+
+    LOG_DEBUG("%s", "Copy vector to vector is successful");
+    return true;
+  }
+
+  bool MoveVectorToVector(VectorDataContainer<T> &&source_vector_data_container) {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::MoveVectorToVector");
+    LOG_DEBUG("%s%d", "Number of Vector elements to be moved: ", source_vector_data_container.vector_data_size);
+
+    *vector_data_container_ = static_cast<praise_tools::VectorDataContainer<T>&&>(std::move(source_vector_data_container));
+    if (vector_data_container_ == nullptr) {
+      LOG_ERROR("%s", "Move of source_vector_data_container failed");
+      return false;
+    }
+
+    LOG_DEBUG("%s", "Move vector to vector is successful");
+    return true;
+  }
+
+  T& GetElementByIndex(uint32_t element_index) {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::GetElementByIndex");
+    LOG_DEBUG("%s%d", "Index number: ", element_index);
+
+    if (element_index > vector_data_container_->vector_data_size) {
+      LOG_ERROR("%s%d%s", "Provided index:", element_index, " is out of Vector range");
+      exit(1);
+    }
+
+    LOG_DEBUG("%s%d%s", "Element with index:", element_index, " found and returned");
+    return *vector_data_container_->vector_data[element_index];
+  }
+
+  bool CompareVectorToVector(const VectorDataContainer<T> &source_vector_data_container) {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::CompareVectorToVector");
+
+    LOG_DEBUG("%s%d", "vector_data_container_->vector_data_size: ", vector_data_container_->vector_data_size);
+    LOG_DEBUG("%s%d", "source_vector_data_container->vector_data_size: ", source_vector_data_container.vector_data_size);
+
+    if (vector_data_container_->vector_data_size != source_vector_data_container.vector_data_size) {
+      LOG_DEBUG("%s", "Compared Vectors size is different");
+      return false;
+    }
+
+    for (int i = 0; i < vector_data_container_->vector_data_size; ++i) {
+      LOG_DEBUG("%s%d%s%d%s", "Checks if vector_data_container_->vector_data[", i, "] is equal to source_vector_data_container.vector_data[", i, "]");
+      if (*vector_data_container_->vector_data[i] != *source_vector_data_container.vector_data[i]) {
+        LOG_DEBUG("%s", "Compared Vectors are not equal");
+        return false;
+      }
+    }
+
+    LOG_DEBUG("%s", "Compared Vectors are equal");
+    return true;
+  }
 
  private:
   std::shared_ptr<VectorDataContainer<T>> vector_data_container_;

@@ -38,67 +38,16 @@
  */
 
 
+#include "Vector.h"
 #include <iostream>
 #include <cstdlib>
 
-
-using namespace std;
-
-template<class T> class vector {
-  T **tab;
-  int size;
-
- public:
-  ~vector() {
-    for (int i = 0; i < size; ++i) {
-      delete tab[i];
-    }
-
-    free(tab);
-  }
-
-  vector()
-      :
-      size { 0 } {
-    tab = (T**) std::malloc(sizeof(T*));
-  }
-
-  vector(T new_element)
-      :
-      size { 0 } {
-    *tab = (T*) std::malloc(sizeof(T*));
-    tab[size] = new (T);
-    *tab[size] = new_element;
-    ++size;
-  }
-
-  void Add(T new_element) {
-    tab = (T**) std::realloc(tab, (size + 1) * sizeof(T*));
-    tab[size] = new (T);
-    *tab[size] = new_element;
-    ++size;
-  }
-
-  void Print() {
-    for (int i = 0; i < size; ++i) {
-      std::cout << "\n" << *tab[i];
-    }
-    std::cout << endl;
-  }
-
-};
-
 int main() {
-  cout << "Hello World\n";
 
-  vector<int> vec/*(5)*/;
-  vec.Add(6);
+  SET_LOG_LEVEL(equinox_logger::LogLevelType::LOG_LEVEL_DEBUG);
 
-  for (int i = 0; i < 90; ++i) {
-    vec.Add(i + 1);
-  }
-
-  vec.Print();
+  praise_tools::Vector<int> test_vector;
+  test_vector.Add(21);
 
   return 0;
 }

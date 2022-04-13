@@ -51,17 +51,136 @@ namespace praise_tools {
 template<class T>
 class Vector {
  public:
-  ~Vector();
-  Vector();
-  Vector(T &init_lelement);
-  Vector(const Vector &source_vector);
-  Vector(const Vector &&source_vector);
+  ~Vector() {
 
-  T& operator [](uint32_t);
-  void operator=(const Vector&);
-  bool operator==(const Vector&);
+    LOG_DEBUG("%s", "Vector<T>::~Vector()");
 
-  void Add(T&);
+    if (!vector_interface_handler_->DisposeOfVectorObj()) {
+      LOG_ERROR("%s", "Dispose of Vector object failed!");
+    }
+
+    LOG_DEBUG("%s", "Dispose of Vector object successful");
+  }
+
+  Vector()
+      :
+      vec_data_container_ { new VectorDataContainer<T> },
+      vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
+
+    LOG_DEBUG("%s", "Vector<T>::Vector()");
+
+    if (vector_interface_handler_->InitVectorObj()) {
+      LOG_DEBUG("%s", "Vector object initialization is successful");
+    } else {
+      LOG_ERROR("%s", "Vector object initialization is failed");
+      exit(1);
+    }
+  }
+
+  Vector(T &init_lelement)
+      :
+      vec_data_container_ { new VectorDataContainer<T> },
+      vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
+
+    LOG_DEBUG("%s", "Vector<T>::Vector(T)");
+
+    if (vector_interface_handler_->InitVectorObj()) {
+      LOG_DEBUG("%s", "Vector object initialization is successful");
+
+      if (vector_interface_handler_->AddNewElelemntToVector(init_lelement)) {
+        LOG_DEBUG("%s", "Init Vector and add init element is successful");
+      } else {
+        LOG_ERROR("%s", "Init Vector and add init element is failed");
+        exit(1);
+      }
+
+    } else {
+      LOG_ERROR("%s", "Vector object initialization is failed");
+      exit(1);
+    }
+  }
+
+  Vector(const Vector &source_vector)
+      :
+      vec_data_container_ { new VectorDataContainer<T> },
+      vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
+
+    LOG_DEBUG("%s", "Copy constructor called");
+    LOG_DEBUG("%s", "Vector<T>::Vector(const Vector &)");
+
+    if (vector_interface_handler_->InitVectorObj()) {
+      LOG_DEBUG("%s", "Vector object initialization is successful");
+
+      if (!vector_interface_handler_->CopyVectorToVector(source_vector->vec_data_container_)) {
+        LOG_ERROR("%s", "Copy constructor failed to proceed");
+        exit(1);
+      } else {
+        LOG_DEBUG("%s", "Copy constructor successfully copied all elements");
+      }
+
+    } else {
+      LOG_ERROR("%s", "Vector object initialization is failed");
+      exit(1);
+    }
+  }
+
+  Vector(const Vector &&source_vector) {
+
+    LOG_DEBUG("%s", "Move constructor called");
+    LOG_DEBUG("%s", "Vector<T>::Vector(const Vector&&)");
+
+    if (!vector_interface_handler_->MoveVectorToVector(source_vector->vec_data_container_)) {
+      LOG_ERROR("%s", "Move constructor failed to proceed");
+      exit(1);
+    }
+
+    LOG_DEBUG("%s", "Move constructor successfully moved all elements");
+  }
+
+  T& operator [](uint32_t element_index) {
+
+    LOG_DEBUG("%s", "Vector<T>::operator [] called");
+    LOG_DEBUG("%s%d", "Index number requested: ", element_index);
+    return vector_interface_handler_->GetElementByIndex(element_index);
+  }
+
+  void operator =(const Vector &source_vector) {
+
+    LOG_DEBUG("%s", "Vector<T>::operator =(const Vector&) called");
+
+    if (!vector_interface_handler_->CopyVectorToVector(source_vector->vec_data_container_)) {
+      LOG_ERROR("%s", "Copy of source Vector failed to proceed");
+      exit(1);
+    } else {
+      LOG_DEBUG("%s", "Successfully copied all elements");
+    }
+  }
+
+  bool operator ==(const Vector &source_vector) {
+
+    LOG_DEBUG("%s", "Vector<T>::operator==(const Vector&) called");
+
+    if (!vector_interface_handler_->CompareVectorToVector(source_vector)) {
+      LOG_DEBUG("%s", "Vectors are not equal");
+      return false;
+    }
+
+    LOG_DEBUG("%s", "Vectors are equal");
+    return true;
+  }
+
+  void Add(T new_element) {
+
+    LOG_DEBUG("%s", "Vector<T>::Add(T&) called");
+
+    if (vector_interface_handler_->AddNewElelemntToVector(new_element)) {
+      LOG_DEBUG("%s", "Add element is successful");
+    } else {
+      LOG_ERROR("%s", "Add element is failed");
+      exit(1);
+    }
+  }
+
   T& GetElement();
   bool IsEmpty();
   uint32_t Size();
@@ -72,8 +191,8 @@ class Vector {
   void Emplace_back(T&);
 
 private:
-  std::unique_ptr<VectorInterfaceHandler<T>> vector_interface_handler_;
   std::shared_ptr<VectorDataContainer<T>> vec_data_container_;
+  std::unique_ptr<VectorInterfaceHandler<T>> vector_interface_handler_;
 };
 
 } /*namespace praise_tools*/

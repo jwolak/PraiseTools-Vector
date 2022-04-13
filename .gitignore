@@ -57,6 +57,7 @@ PraiseTools-Vector/Build/CMakeFiles/
 PraiseTools-Vector/Build/Makefile
 PraiseTools-Vector/Build/cmake_install.cmake
 PraiseTools-Vector/Build/*.log
+PraiseTools-Vector/*.log
 
 EquinoxLogger/Build/CMakeCache.txt
 EquinoxLogger/Build/CMakeFiles/

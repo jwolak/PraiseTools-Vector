@@ -41,7 +41,7 @@
 
 #include <memory>
 
-#include "../../PraiseTools-Vector/PraiseTools-Vector/Source/Vector.cpp"
+#include "../../PraiseTools-Vector/PraiseTools-Vector/Source/Vector.h"
 
 namespace vector_tests {
 

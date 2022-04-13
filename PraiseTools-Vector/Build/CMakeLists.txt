@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 set(CMAKE_CXX_STANDARD 11)
-project (TensionCPU)
+project (PraiseTools-Vector)
 include_directories(${CMAKE_SOURCE_DIR}/../../EquinoxLogger)
 link_directories(${CMAKE_SOURCE_DIR}/../../EquinoxLogger/Build)
 set (SOURCE_FILES_DIR "../Source")
@@ -15,8 +15,6 @@ ${SOURCE_FILES_DIR}/Vector-Interface-Handler.h
 
 #source
 ${SOURCE_FILES_DIR}/main.cpp
-${SOURCE_FILES_DIR}/Vector.cpp
-${SOURCE_FILES_DIR}/Vector-Interface-Handler.cpp
 )
 
 target_link_libraries(PraiseTools-Vector.x86 libEquinoxLogger.a)

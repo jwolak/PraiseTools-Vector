@@ -41,7 +41,7 @@
 
 #include <memory>
 
-#include "../../PraiseTools-Vector/PraiseTools-Vector/Source/Vector-Interface-Handler.cpp"
+#include "../../PraiseTools-Vector/PraiseTools-Vector/Source/Vector-Interface-Handler.h"
 
 namespace vector_interface_handler_tests {
 
