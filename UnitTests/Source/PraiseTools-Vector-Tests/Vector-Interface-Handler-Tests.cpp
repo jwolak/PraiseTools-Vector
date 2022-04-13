@@ -47,8 +47,12 @@ namespace vector_interface_handler_tests {
 
 namespace {
 typedef int TestTypeInt;
-const int kNewVectorElement = 7;
-const int kNewVectorElementToCompare = 8;
+const int kNewVectorElement = 1;
+const int kNewVectorElementNoTwo = 2;
+const int kNewVectorElementNoThree = 3;
+const int kNewVectorElementNoFour = 4;
+const int kNewVectorElementToCompare = 11;
+
 const int kNumberOfElementsInVector = 10;
 }
 
@@ -223,18 +227,33 @@ TYPED_TEST(VectorInterfaceHandlerTests, None_Elements_And_GetVectorSize_Should_R
 
 TYPED_TEST(VectorInterfaceHandlerTests, Add_Three_Elements_To_Vector_And_Remove_All_Of_Them_And_True_Returned) {
   this->AddTestElement(kNewVectorElement);
-  this->AddTestElement(kNewVectorElement + 1);
-  this->AddTestElement(kNewVectorElement + 2);
+  this->AddTestElement(kNewVectorElementNoTwo);
+  this->AddTestElement(kNewVectorElementNoThree);
   ASSERT_TRUE(this->vector_interface_handler->ClearVector());
 }
 
 TYPED_TEST(VectorInterfaceHandlerTests, Add_Three_Elements_To_Vector_And_Remove_All_Of_Them_And_Vector_Size_Reseted_To_Zero) {
   this->AddTestElement(kNewVectorElement);
-  this->AddTestElement(kNewVectorElement + 1);
-  this->AddTestElement(kNewVectorElement + 2);
+  this->AddTestElement(kNewVectorElementNoTwo);
+  this->AddTestElement(kNewVectorElementNoThree);
   ASSERT_EQ(this->vector_data_container->vector_data_size, 3);
   this->vector_interface_handler->ClearVector();
   ASSERT_EQ(this->vector_data_container->vector_data_size, 0);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Add_Four_Elements_And_Try_To_Removed_With_Index_Two_One_And_Element_Number_Two_Removed) {
+  this->AddTestElement(kNewVectorElement);
+  this->AddTestElement(kNewVectorElementNoTwo);
+  this->AddTestElement(kNewVectorElementNoThree);
+  this->AddTestElement(kNewVectorElementNoFour);
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 4);
+  this->vector_interface_handler->EraseElement(2);
+  ASSERT_EQ(this->vector_data_container->vector_data_size, 3);
+
+  ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
+  ASSERT_EQ(*this->vector_data_container->vector_data[1], kNewVectorElementNoThree);
+  ASSERT_EQ(*this->vector_data_container->vector_data[2], kNewVectorElementNoFour);
+
 }
 
 } /*namespace vector_interface_handler_tests*/

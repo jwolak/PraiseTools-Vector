@@ -249,8 +249,9 @@ class VectorInterfaceHandler {
 
   bool ClearVector() {
 
-    int i = 0;
     LOG_DEBUG("%s", "VectorInterfaceHandler<T>::ClearVector");
+
+    int i = 0;
 
     if (vector_data_container_->vector_data != nullptr) {
       LOG_DEBUG("%s", "vector_data_container_->vector_data is not nullptr");
@@ -277,6 +278,37 @@ class VectorInterfaceHandler {
       return true;
     }
     return false;
+  }
+
+  bool EraseElement(uint32_t element_index) {
+
+    LOG_DEBUG("%s", "VectorInterfaceHandler<T>::EraseElement(uint32_t)");
+
+    LOG_DEBUG("%s%d", "Index of element to be erased: ", element_index);
+    LOG_DEBUG("%s%d%s", "Element placed in cell: vector_data_container_->vector_data[", element_index- 1, "] to be erased");
+
+    uint32_t number_of_shifts = 0;
+
+    if (vector_data_container_->vector_data != nullptr) {
+
+      LOG_DEBUG("%s", "Starts to shifting elements in cells:");
+      for (int i = element_index - 1; i < vector_data_container_->vector_data_size; ++i) {
+        LOG_DEBUG("%s%d%s%d%s", "vector_data_container_->vector_data[", i + 1, "] shifted to new place vector_data_container_->vector_data[",  i, "]");
+        vector_data_container_->vector_data[i] = std::move(vector_data_container_->vector_data[i + 1]);
+        ++number_of_shifts;
+      }
+
+      LOG_DEBUG("%s%d", "Number of cells shifted: ", number_of_shifts);
+      --vector_data_container_->vector_data_size;
+      LOG_DEBUG("%s%d", "Size of o Vector after element was erased: ", vector_data_container_->vector_data_size);
+
+    } else {
+      LOG_DEBUG("%s", "EraseElement(): Vector object has not been initialized");
+      return false;
+    }
+
+    LOG_DEBUG("%d%s", element_index, " element has been erased");
+    return true;
   }
 
  private:

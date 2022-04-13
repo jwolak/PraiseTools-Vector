@@ -223,8 +223,19 @@ class Vector {
     LOG_DEBUG("%s", "Clear Vector successful");
   }
 
+  void Erase(uint32_t element_index) {
+
+    LOG_DEBUG("%s", "Vector<T>::Erase(uint32_t) called");
+
+    if ( !vector_interface_handler_->EraseElement(element_index)) {
+      LOG_ERROR("%s%d%s", "Erase element: ", element_index, " failed");
+      exit(1);
+    }
+
+    LOG_DEBUG("%s%d%s", "Erased element: ", element_index);
+  }
+
   void Insert(T&);
-  void Erase(uint32_t);
 
 private:
   std::shared_ptr<VectorDataContainer<T>> vec_data_container_;
