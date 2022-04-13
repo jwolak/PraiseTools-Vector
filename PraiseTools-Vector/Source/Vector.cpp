@@ -138,3 +138,30 @@ T& praise_tools::Vector<T>::operator [](uint32_t element_index) {
   LOG_DEBUG("%s%d", "Index number requested: ", element_index);
   return vector_interface_handler_->GetElementByIndex(element_index);
 }
+
+template<class T>
+void praise_tools::Vector<T>::operator =(const Vector &source_vector) {
+
+  LOG_DEBUG("%s", "Vector<T>::operator =(const Vector&) called");
+
+  if (!vector_interface_handler_->CopyVectorToVector(source_vector->vec_data_container_)) {
+    LOG_ERROR("%s", "Copy of source Vector failed to proceed");
+    exit(1);
+  } else {
+    LOG_DEBUG("%s", "Successfully copied all elements");
+  }
+}
+
+template<class T>
+bool praise_tools::Vector<T>::operator ==(const Vector &source_vector) {
+
+  LOG_DEBUG("%s", "Vector<T>::operator==(const Vector&) called");
+
+  if (!vector_interface_handler_->CompareVectorToVector(source_vector)) {
+    LOG_DEBUG("%s", "Vectors are not equal");
+    return false;
+  }
+
+  LOG_DEBUG("%s", "Vectors are equal");
+  return true;
+}

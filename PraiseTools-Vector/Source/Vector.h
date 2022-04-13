@@ -59,7 +59,8 @@ class Vector {
 
   T& operator [](uint32_t);
   void operator=(const Vector&);
-  void operator==(const Vector&);
+  bool operator==(const Vector&);
+
   void Add(T&);
   T& GetElement();
   bool IsEmpty();

@@ -167,3 +167,28 @@ T& praise_tools::VectorInterfaceHandler<T>::GetElementByIndex(uint32_t element_i
   LOG_DEBUG("%s%d%s", "Element with index:", element_index, " found and returned");
   return *vector_data_container_->vector_data[element_index];
 }
+
+template<class T>
+bool praise_tools::VectorInterfaceHandler<T>::CompareVectorToVector(const VectorDataContainer<T> &source_vector_data_container) {
+
+  LOG_DEBUG("%s", "VectorInterfaceHandler<T>::CompareVectorToVector");
+
+  LOG_DEBUG("%s%d", "vector_data_container_->vector_data_size: ", vector_data_container_->vector_data_size);
+  LOG_DEBUG("%s%d", "source_vector_data_container->vector_data_size: ", source_vector_data_container.vector_data_size);
+
+  if (vector_data_container_->vector_data_size != source_vector_data_container.vector_data_size) {
+    LOG_DEBUG("%s", "Compared Vectors size is different");
+    return false;
+  }
+
+  for (int i = 0; i < vector_data_container_->vector_data_size; ++i) {
+    LOG_DEBUG("%s%d%s%d%s", "Checks if vector_data_container_->vector_data[", i, "] is equal to source_vector_data_container.vector_data[", i, "]");
+    if (*vector_data_container_->vector_data[i] != *source_vector_data_container.vector_data[i]) {
+      LOG_DEBUG("%s", "Compared Vectors are not equal");
+      return false;
+    }
+  }
+
+  LOG_DEBUG("%s", "Compared Vectors are equal");
+  return true;
+}

@@ -48,6 +48,7 @@ namespace vector_interface_handler_tests {
 namespace {
 typedef int TestTypeInt;
 const int kNewVectorElement = 7;
+const int kNewVectorElementToCompare = 8;
 const int kNumberOfElementsInVector = 10;
 }
 
@@ -175,6 +176,18 @@ TYPED_TEST(VectorInterfaceHandlerTests, Allocate_Source_Vector_Data_Container_An
 TYPED_TEST(VectorInterfaceHandlerTests, Add_New_Element_To_Vector_And_Get_It_By_Index_Is_Successfull) {
   this->AddTestElement(kNewVectorElement);
   ASSERT_EQ(this->vector_interface_handler->GetElementByIndex(0), kNewVectorElement);
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Add_Same_Elements_To_Two_Vectors_And_Compared_Them_And_True_Returned) {
+  this->AddTestElement(kNewVectorElement);
+  this->AllocateVectorDataContainerSource();
+  ASSERT_TRUE(this->vector_interface_handler->CompareVectorToVector(*this->vector_data_container_source));
+}
+
+TYPED_TEST(VectorInterfaceHandlerTests, Add_Different_Elements_To_Two_Vectors_And_Compared_Them_And_False_Returned) {
+  this->AddTestElement(kNewVectorElementToCompare);
+  this->AllocateVectorDataContainerSource();
+  ASSERT_FALSE(this->vector_interface_handler->CompareVectorToVector(*this->vector_data_container_source));
 }
 
 } /*namespace vector_interface_handler_tests*/

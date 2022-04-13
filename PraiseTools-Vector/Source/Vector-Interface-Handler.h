@@ -60,6 +60,7 @@ class VectorInterfaceHandler {
   bool CopyVectorToVector(const VectorDataContainer<T> &source_vector_data_container);
   bool MoveVectorToVector(VectorDataContainer<T> &&source_vector_data_container);
   T&  GetElementByIndex(uint32_t element_index);
+  bool CompareVectorToVector(const VectorDataContainer<T> &source_vector_data_container);
 
  private:
   std::shared_ptr<VectorDataContainer<T>> vector_data_container_;
