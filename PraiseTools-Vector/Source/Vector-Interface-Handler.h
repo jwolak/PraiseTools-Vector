@@ -107,7 +107,7 @@ class VectorInterfaceHandler {
 
   bool AddNewElelemntToVector(T new_element) {
 
-    if (*vector_data_container_->vector_data == nullptr) {
+    if (vector_data_container_->vector_data == nullptr) {
       LOG_ERROR("%s", "Vector not initialized");
       return false;
     }

@@ -77,7 +77,7 @@ class Vector {
     }
   }
 
-  Vector(T &init_lelement)
+  Vector(T init_lelement)
       :
       vec_data_container_ { new VectorDataContainer<T> },
       vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
@@ -111,7 +111,7 @@ class Vector {
     if (vector_interface_handler_->InitVectorObj()) {
       LOG_DEBUG("%s", "Vector object initialization is successful");
 
-      if (!vector_interface_handler_->CopyVectorToVector(source_vector->vec_data_container_)) {
+      if (!vector_interface_handler_->CopyVectorToVector(*source_vector.vec_data_container_)) {
         LOG_ERROR("%s", "Copy constructor failed to proceed");
         exit(1);
       } else {
@@ -124,12 +124,15 @@ class Vector {
     }
   }
 
-  Vector(const Vector &&source_vector) {
+  Vector(const Vector &&source_vector)
+      :
+        vec_data_container_ { new VectorDataContainer<T> },
+      vector_interface_handler_ { new VectorInterfaceHandler<T> { vec_data_container_ } } {
 
     LOG_DEBUG("%s", "Move constructor called");
     LOG_DEBUG("%s", "Vector<T>::Vector(const Vector&&)");
 
-    if (!vector_interface_handler_->MoveVectorToVector(source_vector->vec_data_container_)) {
+    if (!vector_interface_handler_->MoveVectorToVector(std::move(*source_vector.vec_data_container_))) {
       LOG_ERROR("%s", "Move constructor failed to proceed");
       exit(1);
     }
@@ -148,7 +151,7 @@ class Vector {
 
     LOG_DEBUG("%s", "Vector<T>::operator =(const Vector&) called");
 
-    if (!vector_interface_handler_->CopyVectorToVector(source_vector->vec_data_container_)) {
+    if (!vector_interface_handler_->CopyVectorToVector(*source_vector.vec_data_container_)) {
       LOG_ERROR("%s", "Copy of source Vector failed to proceed");
       exit(1);
     } else {
@@ -160,7 +163,7 @@ class Vector {
 
     LOG_DEBUG("%s", "Vector<T>::operator==(const Vector&) called");
 
-    if (!vector_interface_handler_->CompareVectorToVector(source_vector)) {
+    if (!vector_interface_handler_->CompareVectorToVector(*source_vector.vec_data_container_)) {
       LOG_DEBUG("%s", "Vectors are not equal");
       return false;
     }
