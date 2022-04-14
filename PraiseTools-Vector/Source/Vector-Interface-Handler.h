@@ -285,16 +285,16 @@ class VectorInterfaceHandler {
     LOG_DEBUG("%s", "VectorInterfaceHandler<T>::EraseElement(uint32_t)");
 
     LOG_DEBUG("%s%d", "Index of element to be erased: ", element_index);
-    LOG_DEBUG("%s%d%s", "Element placed in cell: vector_data_container_->vector_data[", element_index- 1, "] to be erased");
+    LOG_DEBUG("%s%d%s", "Element placed in cell: vector_data_container_->vector_data[", element_index/*- 1*/, "] to be erased");
 
     uint32_t number_of_shifts = 0;
 
     if (vector_data_container_->vector_data != nullptr) {
 
       LOG_DEBUG("%s", "Starts to shifting elements in cells:");
-      for (int i = element_index - 1; i < vector_data_container_->vector_data_size; ++i) {
+      for (int i = element_index; i < vector_data_container_->vector_data_size - 1; ++i) {
         LOG_DEBUG("%s%d%s%d%s", "vector_data_container_->vector_data[", i + 1, "] shifted to new place vector_data_container_->vector_data[",  i, "]");
-        vector_data_container_->vector_data[i] = std::move(vector_data_container_->vector_data[i + 1]);
+        *vector_data_container_->vector_data[i] = *vector_data_container_->vector_data[i + 1];
         ++number_of_shifts;
       }
 

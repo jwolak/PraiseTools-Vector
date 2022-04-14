@@ -235,14 +235,14 @@ class Vector {
       exit(1);
     }
 
-    LOG_DEBUG("%s%d%s", "Erased element: ", element_index);
+    LOG_DEBUG("%s%d", "Erased element: ", element_index);
   }
 
   void Insert(T new_element) {
 
     LOG_DEBUG("%s", "Vector<T>::Insert(T) called");
 
-    if (InsertInHead(new_element)) {
+    if (!vector_interface_handler_->InsertInHead(new_element)) {
       LOG_ERROR("%s", "Failed to insert a new element at head of Vector");
       exit(1);
     } else {

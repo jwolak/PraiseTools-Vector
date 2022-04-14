@@ -49,21 +49,7 @@ namespace {
 typedef int TestTypeInt;
 const TestTypeInt kInitElement = 7;
 const TestTypeInt kInitElementNoTwo = 21;
-}
-
-template<class T>
-class VectorSmokeTests : public ::testing::Test {
- public:
-  VectorSmokeTests() : vector { new praise_tools::Vector<T> } {}
-
-  std::unique_ptr<praise_tools::Vector<T>> vector;
-};
-
-using MyTypes = ::testing::Types<TestTypeInt>;
-TYPED_TEST_SUITE(VectorSmokeTests, MyTypes);
-
-TYPED_TEST(VectorSmokeTests, test) {
-
+const TestTypeInt kInitElementNoThree = 77;
 }
 
 TEST(VectorSmokeTests, Create_Empty_Vector) {
@@ -158,5 +144,69 @@ TEST(VectorSmokeTests, NOT_Empty_Vector_And_IsEmpty_Returns_False) {
   vector.Push_back(kInitElement);
   ASSERT_FALSE(vector.IsEmpty());
 }
+
+TEST(VectorSmokeTests, Get_Vector_Size_Equal_To_Zero) {
+  praise_tools::Vector<TestTypeInt> vector;
+  ASSERT_EQ(vector.Size(), 0);
+}
+
+TEST(VectorSmokeTests, Get_Vector_Size_Equal_To_One) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  ASSERT_EQ(vector.Size(), 1);
+}
+
+TEST(VectorSmokeTests, Get_Vector_Size_Equal_To_Two) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  vector.Push_back(kInitElementNoTwo);
+  ASSERT_EQ(vector.Size(), 2);
+}
+
+TEST(VectorSmokeTests, Clear_Vector_Test) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  vector.Push_back(kInitElementNoTwo);
+  ASSERT_EQ(vector.Size(), 2);
+  vector.Clear();
+  ASSERT_EQ(vector.Size(), 0);
+}
+
+TEST(VectorSmokeTests, Erase_The_Second_Element_Test) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  vector.Push_back(kInitElementNoTwo);
+  vector.Push_back(kInitElementNoThree);
+  ASSERT_EQ(vector.Size(), 3);
+  vector.Erase(1);
+  ASSERT_EQ(vector.Size(), 2);
+  ASSERT_EQ(vector[0], kInitElement);
+  ASSERT_EQ(vector[1], kInitElementNoThree);
+}
+
+TEST(VectorSmokeTests, Erase_The_Firs_Element_Test) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  vector.Push_back(kInitElementNoTwo);
+  vector.Push_back(kInitElementNoThree);
+  ASSERT_EQ(vector.Size(), 3);
+  vector.Erase(0);
+  ASSERT_EQ(vector.Size(), 2);
+  ASSERT_EQ(vector[0], kInitElementNoTwo);
+  ASSERT_EQ(vector[1], kInitElementNoThree);
+}
+
+TEST(VectorSmokeTests, Insert_Element_At_The_Begenning) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  vector.Push_back(kInitElementNoTwo);
+  ASSERT_EQ(vector.Size(), 2);
+  vector.Insert(kInitElementNoThree);
+  ASSERT_EQ(vector.Size(), 3);
+  ASSERT_EQ(vector[0], kInitElementNoThree);
+  ASSERT_EQ(vector[1], kInitElement);
+  ASSERT_EQ(vector[2], kInitElementNoTwo);
+}
+
 
 } /*namespace vector_tests*/

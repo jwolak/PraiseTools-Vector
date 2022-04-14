@@ -247,7 +247,7 @@ TYPED_TEST(VectorInterfaceHandlerTests, Add_Four_Elements_And_Try_To_Removed_Wit
   this->AddTestElement(kNewVectorElementNoThree);
   this->AddTestElement(kNewVectorElementNoFour);
   ASSERT_EQ(this->vector_data_container->vector_data_size, 4);
-  this->vector_interface_handler->EraseElement(2);
+  this->vector_interface_handler->EraseElement(1);
   ASSERT_EQ(this->vector_data_container->vector_data_size, 3);
 
   ASSERT_EQ(*this->vector_data_container->vector_data[0], kNewVectorElement);
