@@ -120,4 +120,43 @@ TEST(VectorSmokeTests, Equality_Operator_Test_Two_NOT_Equal_Vectors_And_False_Sh
   ASSERT_FALSE(vector == source_vector);
 }
 
+TEST(VectorSmokeTests, Push_Back_One_Elelement_Test) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  ASSERT_EQ(vector[0], kInitElement);
+}
+
+TEST(VectorSmokeTests, Push_Back_Two_Elelements_Test) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  vector.Push_back(kInitElementNoTwo);
+  ASSERT_EQ(vector[0], kInitElement);
+  ASSERT_EQ(vector[1], kInitElementNoTwo);
+}
+
+TEST(VectorSmokeTests, Get_Element_With_One_Elelement_Test) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  ASSERT_EQ(vector.GetElement(0), kInitElement);
+}
+
+TEST(VectorSmokeTests, Get_Element_With_Two_Elelements_Test) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  vector.Push_back(kInitElementNoTwo);
+  ASSERT_EQ(vector.GetElement(0), kInitElement);
+  ASSERT_EQ(vector.GetElement(1), kInitElementNoTwo);
+}
+
+TEST(VectorSmokeTests, Empty_Vector_And_IsEmpty_Returns_True) {
+  praise_tools::Vector<TestTypeInt> vector;
+  ASSERT_TRUE(vector.IsEmpty());
+}
+
+TEST(VectorSmokeTests, NOT_Empty_Vector_And_IsEmpty_Returns_False) {
+  praise_tools::Vector<TestTypeInt> vector;
+  vector.Push_back(kInitElement);
+  ASSERT_FALSE(vector.IsEmpty());
+}
+
 } /*namespace vector_tests*/
