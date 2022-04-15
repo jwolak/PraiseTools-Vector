@@ -40,14 +40,26 @@
 
 #include "Vector.h"
 #include <iostream>
-#include <cstdlib>
 
 int main() {
 
-  SET_LOG_LEVEL(equinox_logger::LogLevelType::LOG_LEVEL_DEBUG);
+  SET_LOG_LEVEL(equinox_logger::LogLevelType::LOG_LEVEL_ERROR);
 
   praise_tools::Vector<int> test_vector;
   test_vector.Push_back(21);
+  test_vector.Insert(22);
+
+  std::cout<<"test_vector[0]: "<<test_vector[0]<<std::endl;
+  std::cout<<"test_vector[1]: "<<test_vector[1]<<std::endl;
+
+  std::cout<<"test_vector.GetElement(0): "<<test_vector.GetElement(0)<<std::endl;
+  std::cout<<"test_vector.GetElement(1): "<<test_vector.GetElement(1)<<std::endl;
+
+  std::cout<<"test_vector.Size(): "<<test_vector.Size()<<std::endl;
+
+  test_vector.Erase(1);
+  std::cout<<"test_vector.Size() after erase: "<<test_vector.Size()<<std::endl;
+  std::cout<<"test_vector.GetElement(0): "<<test_vector.GetElement(0)<<std::endl;
 
   return 0;
 }
