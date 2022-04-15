@@ -30,14 +30,6 @@
 - Push_back(T) (insert at the end)
 - Push_back(T*) (insert at the end)
 
-## Features
-
-- CPU load in percentage
-- load generation duration in seconds
-- scheduling policy
-- powered by C++11
-
-
 ## Building for source
 
 ###### Build EquinoxLogger first (linked as static library):
