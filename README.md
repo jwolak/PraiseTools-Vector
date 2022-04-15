@@ -2,7 +2,8 @@
 **Experimental vector implementation based on std::vector (but does not intend to replace it ever )**
 
 **Defined in Vector.h header**
-- template <<class T>> class Vector
+
+- template <class T> class Vector
 
 **Constructors:**
 - Vector()
