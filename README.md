@@ -1,5 +1,5 @@
 # PraiseTools - Vector
-**Experimental vector implementation based om std::vector (but does not intend to replace it ever )**
+**Experimental vector implementation based on std::vector (but does not intend to replace it ever )**
 
 **Defined in Vector.h header**
 - template <class T> class Vector
